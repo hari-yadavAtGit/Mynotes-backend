@@ -78,7 +78,7 @@ router.post("/login", async (req, res) => {
 
 // Update profile route
 
-router.post("/update-profile", authMiddleware, async (req, res) => {
+router.post("/edit-profile", authMiddleware, async (req, res) => {
   const { name, password } = req.body;
   const userId = req.user.id;
 
