@@ -76,4 +76,25 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// Update profile route
+
+router.post("/update-profile", authMiddleware, async (req, res) => {
+  const { name, password } = req.body;
+  const userId = req.user.id;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    if (name) user.name = name;
+    if (password) user.password = password; // bcrypt will hash in pre-save hook
+    await user.save();
+
+    res.json({ message: "Profile updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update profile" });
+  }
+});
+
 export default router;
